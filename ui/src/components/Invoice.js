@@ -9,13 +9,15 @@ const Invoice = () => {
         <div className="header">
           New Invoice
         </div>
-        <div className="invoice-form">
-          Invoice Form
-        </div>
-        <div className="actions">
-          <Link to="/preview" target="_blank">
-            Preview
-          </Link>
+        <div className="content">
+          <div className="invoice-form">
+            Invoice Form
+          </div>
+          <div className="actions">
+            <Link to="/preview" target="_blank">
+              Preview
+            </Link>
+          </div>
         </div>
         <div className="footer">
           Footer
