@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 import './Invoice.css';
 
@@ -15,7 +16,7 @@ const Invoice = () => {
           </div>
           <div className="actions">
             <Link to="/preview" target="_blank">
-              Preview
+              <Button color="success">Preview</Button>
             </Link>
           </div>
         </div>
