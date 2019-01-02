@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import Switch from "react-switch";
 import { Link } from 'react-router-dom';
 import { Alert, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, InputGroup, InputGroupAddon, InputGroupText, Table } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import './Invoice.css';
 
@@ -10,11 +13,11 @@ const copyTypes = ['Original', 'Duplicate', 'Triplicate'];
 
 const Invoice = () => {
 
-  const [company, selectCompany] = useState();
-  const [isOpen, toggleDropdown] = useState(false);
-  const [copyType, selectCopyType] = useState();
+  const [isCompanyOpen, toggleCompanyDropdown] = useState(false);
   const [isCopyTypeOpen, toggleCopyTypeDropdown] = useState(false);
   const [invoice, setInvoice] = useState({
+    reverseCharge: false,
+    invoiceItems: []
   });
 
   console.log(invoice);
@@ -28,7 +31,7 @@ const Invoice = () => {
         <div className="invoice-form">
           <div className="invoice-form-row">
             <div className="company">
-              <Dropdown isOpen={isOpen} toggle={() => toggleDropdown(!isOpen)} direction="right">
+              <Dropdown isOpen={isCompanyOpen} toggle={() => toggleCompanyDropdown(!isCompanyOpen)} direction="right">
                 <DropdownToggle caret>
                   Company
                 </DropdownToggle>
@@ -36,14 +39,14 @@ const Invoice = () => {
                   {
                     Object.keys(companyInfo).map((key) => {
                       return (
-                        <DropdownItem key={key} onClick={() => selectCompany(key)}>{companyInfo[key].displayName}</DropdownItem>
+                        <DropdownItem key={key} onClick={() => setInvoice({...invoice, company: companyInfo[key]})}>{companyInfo[key].displayName}</DropdownItem>
                       )
                     })
                   }
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <Input className="company-name" placeholder={company ? companyInfo[company].displayName : ''} disabled/>
+            <Input className="company-name" placeholder={invoice.company ? invoice.company.displayName : ''} disabled/>
           </div>
           <div className="invoice-form-row">
             <div className="copy-type">
@@ -55,14 +58,14 @@ const Invoice = () => {
                   {
                     copyTypes.map((key) => {
                       return (
-                        <DropdownItem key={key} onClick={() => selectCopyType(key)}>{key}</DropdownItem>
+                        <DropdownItem key={key} onClick={() => setInvoice({...invoice, copy: key})}>{key}</DropdownItem>
                         )
                       })
                     }
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <Input className="selected-copy-type" placeholder={copyType || ''} disabled/>
+            <Input className="selected-copy-type" placeholder={invoice.copy || ''} disabled/>
           </div>
           <div className="invoice-form-row horizontal-divider" />
           <div className="invoice-form-row">
@@ -83,13 +86,15 @@ const Invoice = () => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Reverse Charge</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                  <div className="reverse-charge">
+                    <Switch onChange={() => setInvoice({...invoice, reverseCharge: !invoice.reverseCharge})} checked={invoice.reverseCharge} />
+                  </div>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>State</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => setInvoice({...invoice, state: e.target.value})}/>
               </InputGroup>
             </div>
             <div className="verticle-divider"/>
@@ -98,25 +103,25 @@ const Invoice = () => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Transport Mode</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => setInvoice({...invoice, transportMode: e.target.value})}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Vehicle Number</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => setInvoice({...invoice, vehicleNumber: e.target.value})}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Date Of Supply</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => setInvoice({...invoice, dateOfSupply: e.target.value})}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Place Of Supply</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => setInvoice({...invoice, placeOfSupply: e.target.value})}/>
               </InputGroup>
             </div>
           </div>
@@ -130,25 +135,37 @@ const Invoice = () => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Name</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const billingParty = {...invoice.billingParty, name: e.target.value};
+                  setInvoice({...invoice, billingParty})
+                }}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Address</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const billingParty = {...invoice.billingParty, address: e.target.value};
+                  setInvoice({...invoice, billingParty})
+                }}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>GSTIN</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const billingParty = {...invoice.billingParty, gstin: e.target.value};
+                  setInvoice({...invoice, billingParty})
+                }}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>State</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const billingParty = {...invoice.billingParty, state: e.target.value};
+                  setInvoice({...invoice, billingParty})
+                }}/>
               </InputGroup>
             </div>
             <div className="verticle-divider"/>
@@ -160,25 +177,37 @@ const Invoice = () => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Name</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const shippingParty = {...invoice.billingParty, name: e.target.value};
+                  setInvoice({...invoice, shippingParty})
+                }}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Address</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const shippingParty = {...invoice.billingParty, address: e.target.value};
+                  setInvoice({...invoice, shippingParty})
+                }}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>GSTIN</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const shippingParty = {...invoice.billingParty, gstin: e.target.value};
+                  setInvoice({...invoice, shippingParty})
+                }}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>State</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => {
+                  const shippingParty = {...invoice.billingParty, state: e.target.value};
+                  setInvoice({...invoice, shippingParty})
+                }}/>
               </InputGroup>
             </div>
           </div>
@@ -196,22 +225,44 @@ const Invoice = () => {
                   <th className="taxable-amount">Taxable Amount</th>
                   <th className="igst">IGST</th>
                   <th className="total">Total</th>
-                  <th className="row-action"></th>
+                  <th className="row-action">
+                    <div className="row-action-item" onClick={() => {
+                      const invoiceItemes = invoice.invoiceItems;
+                      invoiceItemes.push({});
+                      setInvoice({...invoice, invoiceItemes})
+                    }}>
+                      <FontAwesomeIcon icon={faPlus} />
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                  <td><Input /></td>
-                </tr>
+                {
+                  invoice.invoiceItems.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td><Input /></td>
+                        <td className="row-actions">
+                          <div className="row-action-item" onClick={() => {
+                            const invoiceItemes = invoice.invoiceItems;
+                            invoiceItemes.push({});
+                            setInvoice({...invoice, invoiceItemes})
+                          }}>
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                }
               </tbody>
             </Table>
           </div>
