@@ -20,6 +20,39 @@
   flex-direction: column;
   padding: 10px 0px;
 }
+
+.invoice-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.invoice-form-row {
+  display: flex;
+  flex: 1;
+  margin-top: 10px;
+}
+
+.company {
+  display: flex;
+  min-width: 120px;
+  max-width: 120px;
+}
+
+.company-name {
+  max-width: 500px;
+}
+
+.copy-type {
+  display: flex;
+  min-width: 120px;
+  max-width: 120px;  
+}
+
+.selected-copy-type {
+  max-width: 500px;
+}
+
 .footer {
   align-items: center;
   background-color: rgba(200, 200, 200, 0.2);
