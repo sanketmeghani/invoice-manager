@@ -53,6 +53,86 @@
   max-width: 500px;
 }
 
+.input-group {
+  margin-bottom: 10px;
+}
+
+.input-group-text {
+  min-width: 150px;
+}
+.invoice-section-left {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.verticle-divider {
+  border: 1px solid rgba(200, 200, 200, 0.5);
+}
+
+.horizontal-divider {
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  width: 100%;
+}
+
+.invoice-section-right {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.sr-no {
+  max-width: 5%;
+  width: 5%;
+}
+
+.product-description {
+  max-width: 25%;
+  width: 25%;
+}
+
+.hsn-code {
+  max-width: 10%;
+  width: 10%;
+}
+
+.bundles {
+  max-width: 5%;
+  width: 5%;
+}
+
+.quantity {
+  max-width: 5%;
+  width: 5%;
+}
+
+.rate {
+  max-width: 10%;
+  width: 10%;
+}
+.taxable-amount {
+  max-width: 10%;
+  width: 10%;
+}
+.igst {
+  max-width: 10%;
+  width: 10%;
+}
+.total {
+  max-width: 10%;
+  width: 10%;
+}
+
+.row-action {
+  max-width: 10%;
+  width: 10%;
+}
+
+.table td {
+  padding: 2px;
+}
 .footer {
   align-items: center;
   background-color: rgba(200, 200, 200, 0.2);
