@@ -14,10 +14,11 @@ const Invoice = () => {
   const [isOpen, toggleDropdown] = useState(false);
   const [copyType, selectCopyType] = useState();
   const [isCopyTypeOpen, toggleCopyTypeDropdown] = useState(false);
-  const [invoiceNo, setInvoiceNo] = useState();
+  const [invoice, setInvoice] = useState({
+  });
 
-  console.log(invoiceNo);
-  
+  console.log(invoice);
+
   return (
     <div className="invoice">
       <div className="header">
@@ -70,13 +71,13 @@ const Invoice = () => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Invoice No</InputGroupText>
                 </InputGroupAddon>
-                <Input onChange={e => setInvoiceNo(e.target.value)} />
+                <Input onChange={e => setInvoice({...invoice, invoiceNo: e.target.value})} />
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Invoice Date</InputGroupText>
                 </InputGroupAddon>
-                <Input />
+                <Input onChange={e => setInvoice({...invoice, invoiceDate: e.target.value})}/>
               </InputGroup>
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
