@@ -1,0 +1,53 @@
+.preview {
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+}
+
+.company-header {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.copy-details {
+  display: flex;
+  align-self: flex-end;
+}
+
+.horizontal-divider {
+  border: 1px solid black;
+  margin: 1px 0px;
+  width: 100%;
+}
+
+.invoice-header {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.preview-row {
+  display: flex;
+  flex: 1;
+}
+
+.row-field {
+  border: 1px solid black;
+  display: flex;
+  flex: 1;
+  padding: 0px 5px;
+}
+
+.field-header {
+  min-width: 140px;
+  text-align: left;
+}
+
+.row-field.bill-to-party, .row-field.ship-to-party {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+}
