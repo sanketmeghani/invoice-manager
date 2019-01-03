@@ -17,10 +17,9 @@ const Invoice = () => {
   const [isCopyTypeOpen, toggleCopyTypeDropdown] = useState(false);
   const [invoice, setInvoice] = useState({
     reverseCharge: false,
-    invoiceItems: []
+    invoiceItems: [],
+    igstRate: 18
   });
-
-  console.log(invoice);
 
   return (
     <div className="invoice">
@@ -224,13 +223,21 @@ const Invoice = () => {
                   <th className="quantity">Quantity</th>
                   <th className="rate">Rate</th>
                   <th className="taxable-amount">Taxable Amount</th>
-                  <th className="igst">IGST</th>
+                  <th className="igst">
+                    IGST(%)
+                    <Input className="igst-rate" defaultValue={invoice.igstRate} onChange={(e) => {
+                      invoice.igstRate = e.target.value;
+                      setInvoice({...invoice})
+                    }}/>
+                  </th>
                   <th className="total">Total</th>
                   <th className="row-action">
                     <div className="row-action-item" onClick={() => {
-                      const invoiceItemes = invoice.invoiceItems;
-                      invoiceItemes.push({});
-                      setInvoice({...invoice, invoiceItemes})
+                      const invoiceItems = invoice.invoiceItems;
+                      invoiceItems.push({
+                        srNo: invoiceItems.length
+                      });
+                      setInvoice({...invoice, invoiceItems})
                     }}>
                       <FontAwesomeIcon icon={faPlus} />
                     </div>
@@ -240,22 +247,67 @@ const Invoice = () => {
               <tbody>
                 {
                   invoice.invoiceItems.map((item, index) => {
+
+                    const invoiceItem = invoice.invoiceItems[index];
+
                     return (
                       <tr key={index}>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
-                        <td><Input /></td>
+                        <td>
+                          <Input value={invoiceItem.srNo} disabled/>
+                        </td>
+                        <td>
+                          <Input onChange={(e) => {
+                            invoiceItem.productDescription = e.target.value;
+                            setInvoice({...invoice})
+                          }}/>
+                        </td>
+                        <td>
+                          <Input onChange={(e) => {
+                            invoiceItem.hsnCode = e.target.value;
+                            setInvoice({...invoice})
+                          }}/>
+                        </td>
+                        <td>
+                          <Input onChange={(e) => {
+                            invoiceItem.bundles = e.target.value;
+                            setInvoice({...invoice})
+                          }}/>
+                        </td>
+                        <td>
+                          <Input onChange={(e) => {
+                            invoiceItem.quantity = e.target.value;
+                            invoiceItem.taxableAmount = invoiceItem.quantity * invoiceItem.rate || '0';
+                            invoiceItem.igst = invoice.igstRate ? Math.ceil(invoiceItem.taxableAmount * invoice.igstRate / 100) : '0';
+                            invoiceItem.total = parseInt(invoiceItem.taxableAmount) + parseInt(invoiceItem.igst);
+                            setInvoice({...invoice})
+                          }}/>
+                        </td>
+                        <td>
+                          <Input onChange={(e) => {
+                            invoiceItem.rate = e.target.value;
+                            invoiceItem.taxableAmount = invoiceItem.quantity * invoiceItem.rate || '0';
+                            invoiceItem.igst = invoice.igstRate ? Math.ceil(invoiceItem.taxableAmount * invoice.igstRate / 100) : '0';
+                            invoiceItem.total = parseInt(invoiceItem.taxableAmount) + parseInt(invoiceItem.igst);
+                            setInvoice({...invoice})
+                          }}/>
+                        </td>
+                        <td>
+                          <Input value={invoiceItem.taxableAmount} disabled/>
+                        </td>
+                        <td>
+                          <Input value={invoiceItem.igst} disabled/>
+                        </td>
+                        <td>
+                          <Input value={invoiceItem.total} disabled/>
+                        </td>
                         <td className="row-actions">
                           <div className="row-action-item" onClick={() => {
-                            const invoiceItemes = invoice.invoiceItems;
-                            invoiceItemes.splice(index, 1);
-                            setInvoice({...invoice, invoiceItemes})
+                            const invoiceItems = invoice.invoiceItems;
+                            invoiceItems.splice(index, 1);
+                            invoiceItems.slice(index).forEach((invoiceItem) => {
+                              invoiceItem.srNo = invoiceItem.srNo - 1;
+                            })
+                            setInvoice({...invoice, invoiceItems})
                           }}>
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </div>

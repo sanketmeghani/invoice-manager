@@ -125,6 +125,11 @@
   max-width: 10%;
   width: 10%;
 }
+
+.igst-rate {
+  text-align: center;
+}
+
 .total {
   max-width: 10%;
   width: 10%;
