@@ -339,7 +339,7 @@ const Invoice = () => {
         </div>
         <div className="actions">
           <Link to="/preview" target="_blank">
-            <Button color="success">Preview</Button>
+            <Button color="success" onClick={() => sessionStorage.setItem('invoice', JSON.stringify(invoice))}>Preview</Button>
           </Link>
         </div>
       </div>

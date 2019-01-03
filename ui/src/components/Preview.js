@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Priview = () => {
+const Priview = ({location}) => {
+  
+  const [invoice] = useState(JSON.parse(sessionStorage.getItem('invoice')));
+
+  console.log(invoice);
+
   return (
     <div>
-      Priview
+      Priview {invoice.igstRate}
     </div>
   )
 }
