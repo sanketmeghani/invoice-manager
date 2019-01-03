@@ -88,6 +88,7 @@ const Invoice = () => {
                 </InputGroupAddon>
                   <div className="reverse-charge">
                     <Switch onChange={() => setInvoice({...invoice, reverseCharge: !invoice.reverseCharge})} checked={invoice.reverseCharge} />
+                    <h5>{invoice.reverseCharge ? 'Yes' : 'No'}</h5>
                   </div>
               </InputGroup>
               <InputGroup>
@@ -253,7 +254,7 @@ const Invoice = () => {
                         <td className="row-actions">
                           <div className="row-action-item" onClick={() => {
                             const invoiceItemes = invoice.invoiceItems;
-                            invoiceItemes.push({});
+                            invoiceItemes.splice(index, 1);
                             setInvoice({...invoice, invoiceItemes})
                           }}>
                             <FontAwesomeIcon icon={faTrashAlt} />
@@ -272,9 +273,6 @@ const Invoice = () => {
             <Button color="success">Preview</Button>
           </Link>
         </div>
-      </div>
-      <div className="footer">
-        Footer
       </div>
     </div>
   )
