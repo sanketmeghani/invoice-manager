@@ -36,22 +36,29 @@
 
 .company {
   display: flex;
-  min-width: 120px;
-  max-width: 120px;
+  max-width: 450px;
 }
 
 .company-name {
-  max-width: 500px;
+  max-width: 300px;
 }
 
 .copy-type {
   display: flex;
-  min-width: 120px;
-  max-width: 120px;  
+  max-width: 450px;  
 }
 
 .selected-copy-type {
-  max-width: 500px;
+  max-width: 300px;
+}
+
+.input-group-prepend > button {
+  text-align: left;
+  min-width: 125px;
+}
+
+button.dropdown-toggle-split {
+  min-width: 25px;
 }
 
 .reverse-charge {

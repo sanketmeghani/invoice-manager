@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Switch from "react-switch";
 import { Link } from 'react-router-dom';
-import { Alert, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, InputGroup, InputGroupAddon, InputGroupText, Table } from 'reactstrap';
+import { Alert, Button, DropdownToggle, DropdownMenu, DropdownItem, Input, InputGroup, InputGroupAddon, InputGroupText, Table, InputGroupButtonDropdown } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons'
 
@@ -29,43 +29,66 @@ const Invoice = () => {
       <div className="content">
         <div className="invoice-form">
           <div className="invoice-form-row">
-            <div className="company">
-              <Dropdown isOpen={isCompanyOpen} toggle={() => toggleCompanyDropdown(!isCompanyOpen)} direction="right">
-                <DropdownToggle caret>
-                  Company
-                </DropdownToggle>
-                <DropdownMenu>
-                  {
-                    Object.keys(companyInfo).map((key) => {
-                      return (
-                        <DropdownItem key={key} onClick={() => setInvoice({...invoice, company: companyInfo[key]})}>{companyInfo[key].displayName}</DropdownItem>
-                      )
-                    })
-                  }
-                </DropdownMenu>
-              </Dropdown>
+            <div className="invoice-section-left">
+              <div className="company">
+                <InputGroup>
+                  <InputGroupButtonDropdown addonType="prepend" isOpen={isCompanyOpen} toggle={() => toggleCompanyDropdown(!isCompanyOpen)} direction="right">
+                    <Button outline>Company</Button>
+                    <DropdownToggle outline split/>                  
+                    <DropdownMenu>
+                      {
+                        Object.keys(companyInfo).map((key) => {
+                          return (
+                            <DropdownItem key={key} onClick={() => setInvoice({...invoice, company: companyInfo[key]})}>{companyInfo[key].displayName}</DropdownItem>
+                          )
+                        })
+                      }
+                    </DropdownMenu>
+                  </InputGroupButtonDropdown>
+                  <Input className="company-name" placeholder={invoice.company ? invoice.company.displayName : ''} disabled/>
+                </InputGroup>
+              </div>
+              <div className="copy-type">
+                <InputGroup>
+                  <InputGroupButtonDropdown addonType="prepend" isOpen={isCopyTypeOpen} toggle={() => toggleCopyTypeDropdown(!isCopyTypeOpen)} direction="right">
+                    <Button outline>Copy</Button>
+                    <DropdownToggle outline split/>
+                    <DropdownMenu>
+                      {
+                        copyTypes.map((key) => {
+                          return (
+                            <DropdownItem key={key} onClick={() => setInvoice({...invoice, copy: key})}>{key}</DropdownItem>
+                            )
+                          })
+                        }
+                    </DropdownMenu>
+                  </InputGroupButtonDropdown>
+                  <Input className="selected-copy-type" placeholder={invoice.copy || ''} disabled/>
+                </InputGroup>
+              </div>
             </div>
-            <Input className="company-name" placeholder={invoice.company ? invoice.company.displayName : ''} disabled/>
-          </div>
-          <div className="invoice-form-row">
-            <div className="copy-type">
-              <Dropdown isOpen={isCopyTypeOpen} toggle={() => toggleCopyTypeDropdown(!isCopyTypeOpen)} direction="right">
-                <DropdownToggle caret>
-                  Copy
-                </DropdownToggle>
-                <DropdownMenu>
-                  {
-                    copyTypes.map((key) => {
-                      return (
-                        <DropdownItem key={key} onClick={() => setInvoice({...invoice, copy: key})}>{key}</DropdownItem>
-                        )
-                      })
-                    }
-                </DropdownMenu>
-              </Dropdown>
+            <div className="verticle-divider"/>
+            <div className="invoice-section-right">
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>Bank A/C</InputGroupText>
+                </InputGroupAddon>
+                <Input onChange={e => setInvoice({...invoice, bankAccount: e.target.value})}/>
+              </InputGroup>
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>Bank IFSC</InputGroupText>
+                </InputGroupAddon>
+                <Input onChange={e => setInvoice({...invoice, bankIFSC: e.target.value})}/>
+              </InputGroup>
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>IGST Rate</InputGroupText>
+                </InputGroupAddon>
+                <Input defaultValue={invoice.igstRate} onChange={e => setInvoice({...invoice, igst: e.target.value})}/>
+              </InputGroup>
             </div>
-            <Input className="selected-copy-type" placeholder={invoice.copy || ''} disabled/>
-          </div>
+          </div>  
           <div className="invoice-form-row horizontal-divider" />
           <div className="invoice-form-row">
             <div className="invoice-section-left">
@@ -223,13 +246,7 @@ const Invoice = () => {
                   <th className="quantity">Quantity</th>
                   <th className="rate">Rate</th>
                   <th className="taxable-amount">Taxable Amount</th>
-                  <th className="igst">
-                    IGST(%)
-                    <Input className="igst-rate" defaultValue={invoice.igstRate} onChange={(e) => {
-                      invoice.igstRate = e.target.value;
-                      setInvoice({...invoice})
-                    }}/>
-                  </th>
+                  <th className="igst">IGST</th>
                   <th className="total">Total</th>
                   <th className="row-action">
                     <div className="row-action-item" onClick={() => {
