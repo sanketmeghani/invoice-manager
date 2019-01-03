@@ -252,7 +252,7 @@ const Invoice = () => {
                     <div className="row-action-item" onClick={() => {
                       const invoiceItems = invoice.invoiceItems;
                       invoiceItems.push({
-                        srNo: invoiceItems.length
+                        srNo: (invoiceItems.length + 1)
                       });
                       setInvoice({...invoice, invoiceItems})
                     }}>
