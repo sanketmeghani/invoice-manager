@@ -266,9 +266,86 @@ const Priview = ({location}) => {
           <div className="amount-words">
             {titleCase(numToWords(invoice.invoiceItems.reduce((finalTotal, invoiceItem) => parseInt(finalTotal) + parseInt(invoiceItem.total), 0)))} Only
           </div>
+          <div className="left-sub-section">
+            <div className="left-sub-section-left">
+              <div className="bank-details-header">
+                Bank Details
+              </div>
+              <div className="bank-account-no">
+                <div className="sub-section-row-field">
+                  <div className="sub-section-field-header">
+                    Bank A/C
+                  </div>
+                  <div className="sub-section-field-value">
+                    : {invoice.bankAccount || ''}
+                  </div>
+                </div>
+              </div>
+              <div className="bank-ifsc-code">
+                <div className="sub-section-row-field">
+                  <div className="sub-section-field-header">
+                    Bank IFSC
+                  </div>
+                  <div className="sub-section-field-value">
+                    : {invoice.bankIFSC || ''}
+                  </div>
+                </div>
+              </div>
+              <div className="terms-condition">
+                Terms & Conditions
+              </div>
+            </div>
+            <div className="left-sub-section-right">
+              <div className="common-seal">
+                Common Seal
+              </div>
+            </div>
+          </div>
         </div>
         <div className="right-section">
-          Right Section Total Amount In Words
+          <div className="right-section-row-field">
+            <div className="right-section-field-header">
+              Taxable Amount
+            </div>
+            <div className="right-section-field-value">
+              {invoice.invoiceItems.reduce((totalTaxableAmount, invoiceItem) => parseInt(totalTaxableAmount) + parseInt(invoiceItem.taxableAmount), 0)}
+            </div>
+          </div>
+          <div className="right-section-row-field">
+            <div className="right-section-field-header">
+              IGST ({invoice.igstRate}%)
+            </div>
+            <div className="right-section-field-value">
+              {invoice.invoiceItems.reduce((totalIGST, invoiceItem) => parseInt(totalIGST) + parseInt(invoiceItem.igst), 0)}
+            </div>
+          </div>
+          <div className="right-section-row-field">
+            <div className="right-section-field-header">
+              Total Payable
+            </div>
+            <div className="right-section-field-value">
+              {invoice.invoiceItems.reduce((finalTotal, invoiceItem) => parseInt(finalTotal) + parseInt(invoiceItem.total), 0)}
+            </div>
+          </div>
+          <div className="right-section-row-field">
+            <div className="right-section-field-header">
+              GST On Reverse Charge
+            </div>
+            <div className="right-section-field-value">
+              {invoice.reverseCharge ? 'Yes' : 'No'}
+            </div>
+          </div>
+          <div className="signature">
+            <div className="signature-note">
+              Certified that the particulars given above are true and correct
+            </div>
+            <div className="signature-company">
+              For {company.displayName}
+            </div>
+            <div className="authorized-signature">
+              Authorized Signature
+            </div>
+          </div>
         </div>
       </div>
     </div>

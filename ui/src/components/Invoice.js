@@ -85,7 +85,7 @@ const Invoice = () => {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>IGST Rate</InputGroupText>
                 </InputGroupAddon>
-                <Input defaultValue={invoice.igstRate} onChange={e => setInvoice({...invoice, igst: e.target.value})}/>
+                <Input defaultValue={invoice.igstRate} onChange={e => setInvoice({...invoice, igstRate: e.target.value})}/>
               </InputGroup>
             </div>
           </div>  
