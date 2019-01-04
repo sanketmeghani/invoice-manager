@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Table } from 'reactstrap';
 
 import './Preview.css';
 
@@ -113,7 +114,7 @@ const Priview = ({location}) => {
             Name
           </div>
           <div className="field-value">
-            : {invoice.billingParty.name}
+            : {invoice.billingParty ? invoice.billingParty.name : ''}
           </div>
         </div>
         <div className="row-field">
@@ -121,7 +122,7 @@ const Priview = ({location}) => {
             Name
           </div>
           <div className="field-value">
-            : {invoice.shippingParty.name}
+            : {invoice.shippingParty ? invoice.shippingParty.name : ''}
           </div>
         </div>
       </div>
@@ -131,7 +132,7 @@ const Priview = ({location}) => {
             Address
           </div>
           <div className="field-value">
-            : {invoice.billingParty.address}
+            : {invoice.billingParty ? invoice.billingParty.address : ''}
           </div>
         </div>
         <div className="row-field">
@@ -139,7 +140,7 @@ const Priview = ({location}) => {
             Address
           </div>
           <div className="field-value">
-            : {invoice.shippingParty.address}
+            : {invoice.shippingParty ? invoice.shippingParty.address : ''}
           </div>
         </div>
       </div>
@@ -149,7 +150,7 @@ const Priview = ({location}) => {
             GSTIN
           </div>
           <div className="field-value">
-            : {invoice.billingParty.gstin}
+            : {invoice.billingParty ? invoice.billingParty.gstin : ''}
           </div>
         </div>
         <div className="row-field">
@@ -157,7 +158,7 @@ const Priview = ({location}) => {
             GSTIN
           </div>
           <div className="field-value">
-            : {invoice.shippingParty.gstin}
+            : {invoice.shippingParty ? invoice.shippingParty.gstin : ''}
           </div>
         </div>
       </div>
@@ -167,7 +168,7 @@ const Priview = ({location}) => {
             State
           </div>
           <div className="field-value">
-            : {invoice.billingParty.state}
+            : {invoice.billingParty ? invoice.billingParty.state : ''}
           </div>
         </div>
         <div className="row-field">
@@ -175,12 +176,80 @@ const Priview = ({location}) => {
             State
           </div>
           <div className="field-value">
-            : {invoice.shippingParty.state}
+            : {invoice.shippingParty ? invoice.shippingParty.state : ''}
           </div>
         </div>
       </div>
       <div className="horizontal-divider" />
+      <div className="horizontal-divider" />
       <div className="preview-row">
+        <Table bordered>
+          <thead>
+            <tr>
+              <th className="sr-no">#</th>
+              <th className="product-description">Product Description</th>
+              <th className="hsn-code">HSN Code</th>
+              <th className="bundles">Bundles</th>
+              <th className="quantity">Quantity</th>
+              <th className="rate">Rate</th>
+              <th className="taxable-amount">Taxable Amount</th>
+              <th className="igst">IGST</th>
+              <th className="total">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              invoice.invoiceItems.map((invoiceItem, index) => {
+
+                return (
+                  <tr key={index}>
+                    <td className="sr-no-cell">{invoiceItem.srNo}</td>
+                    <td className="product-description-cell">{invoiceItem.productDescription}</td>
+                    <td className="hsn-code-cell">{invoiceItem.hsnCode}</td>
+                    <td className="bundles-cell">{invoiceItem.bundles}</td>
+                    <td className="quantity-cell">{invoiceItem.quantity}</td>
+                    <td className="rate-cell">{invoiceItem.rate}</td>
+                    <td className="taxable-amount-cell">{invoiceItem.taxableAmount}</td>
+                    <td className="igst-cell">{invoiceItem.igst}</td>
+                    <td className="total-cell">{invoiceItem.total}</td>
+                  </tr>
+                )
+              })
+            }
+
+<tr>
+              <td style={{borderRight: 'none'}}></td>
+              <td style={{borderLeft: 'none', borderRight: 'none'}}></td>
+              <td style={{borderLeft: 'none'}}></td>
+              <td className="total-bundles">
+                {
+                  invoice.invoiceItems.reduce((totalBundles, invoiceItem) => parseInt(totalBundles) + parseInt(invoiceItem.bundles), 0)
+                }
+              </td>
+              <td className="total-quantity">
+                {
+                  invoice.invoiceItems.reduce((totalQuantity, invoiceItem) => parseInt(totalQuantity) + parseInt(invoiceItem.quantity), 0)
+                }
+              </td>
+              <td></td>
+              <td className="total-taxable-amount">
+                {
+                  invoice.invoiceItems.reduce((totalTaxableAmount, invoiceItem) => parseInt(totalTaxableAmount) + parseInt(invoiceItem.taxableAmount), 0)
+                }
+              </td>
+              <td className="total-igst">
+                {
+                  invoice.invoiceItems.reduce((totalIGST, invoiceItem) => parseInt(totalIGST) + parseInt(invoiceItem.igst), 0)
+                }
+              </td>
+              <td className="final-total">
+                {
+                  invoice.invoiceItems.reduce((finalTotal, invoiceItem) => parseInt(finalTotal) + parseInt(invoiceItem.total), 0)
+                }
+              </td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
     </div>
   )
