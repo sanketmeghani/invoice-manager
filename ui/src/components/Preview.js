@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import numToWords from 'num-words';
 import { Table } from 'reactstrap';
 
 import './Preview.css';
+
+const titleCase = (str) => {
+  return str.toLowerCase().split(' ').map((word) => {
+    return (word.charAt(0).toUpperCase() + word.slice(1));
+  }).join(' ');
+}
 
 const Priview = ({location}) => {
   
@@ -200,7 +207,7 @@ const Priview = ({location}) => {
           <tbody>
             {
               invoice.invoiceItems.map((invoiceItem, index) => {
-
+                
                 return (
                   <tr key={index}>
                     <td className="sr-no-cell">{invoiceItem.srNo}</td>
@@ -217,7 +224,7 @@ const Priview = ({location}) => {
               })
             }
 
-<tr>
+            <tr>
               <td style={{borderRight: 'none'}}></td>
               <td style={{borderLeft: 'none', borderRight: 'none'}}></td>
               <td style={{borderLeft: 'none'}}></td>
@@ -250,6 +257,19 @@ const Priview = ({location}) => {
             </tr>
           </tbody>
         </Table>
+      </div>
+      <div className="preview-row">
+        <div className="left-section">
+          <div className="amount-words-header">
+            Total Amount In Words
+          </div>
+          <div className="amount-words">
+            {titleCase(numToWords(invoice.invoiceItems.reduce((finalTotal, invoiceItem) => parseInt(finalTotal) + parseInt(invoiceItem.total), 0)))} Only
+          </div>
+        </div>
+        <div className="right-section">
+          Right Section Total Amount In Words
+        </div>
       </div>
     </div>
   )
