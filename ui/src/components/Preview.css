@@ -19,7 +19,7 @@
   align-self: flex-end;
 }
 
-.horizontal-divider {
+.horizontal-divider-preview {
   border: 1px solid black;
   margin: 1px 0px;
   width: 100%;
@@ -71,7 +71,7 @@
 }
 
 .sr-no-cell, .hsn-code-cell, .bundles-cell, .quantity-cell, .rate-cell, 
-.taxable-amount-cell, .igst-cell, .total-cell, .total-bundles, .total-quantity,
+.taxable-amount-cell, .igst-rate-cell, .igst-cell, .total-cell, .total-bundles, .total-quantity,
 .total-taxable-amount, .total-igst, .final-total {
   text-align: right;
 }

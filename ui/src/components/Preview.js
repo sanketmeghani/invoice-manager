@@ -20,20 +20,20 @@ const Priview = ({location}) => {
   return (
     <div className="preview">
       <div className="company-header">
-        <h3>{company.displayName}</h3>
-        <h6>{company.address.lineOne}, {company.address.city} - {company.address.pincode}</h6>
-        <h6>Telephone: {company.telephone}</h6>
-        <h6>GSTIN: {company.gstin}</h6>
+        <h3>{company ? company.displayName : ''}</h3>
+        <h6>{company && company.address ? company.address.lineOne : ''}, {company && company.address ? company.address.city : ''} - {company && company.address ? company.address.pincode : ''}</h6>
+        <h6>Telephone: {company ? company.telephone : ''}</h6>
+        <h6>GSTIN: {company ? company.gstin : ''}</h6>
       </div>
       <div className="copy-details">
         {invoice.copy}
       </div>
-      <div className="horizontal-divider" />
-      <div className="horizontal-divider" />
+      <div className="horizontal-divider-preview" />
+      <div className="horizontal-divider-preview" />
       <div className="invoice-header">
         <h3>Tax Invoice</h3>
       </div>
-      <div className="horizontal-divider" />
+      <div className="horizontal-divider-preview" />
       <div className="preview-row">
         <div className="row-field">
           <div className="field-header">
@@ -106,7 +106,7 @@ const Priview = ({location}) => {
           </div>
         </div>
       </div>
-      <div className="horizontal-divider" />
+      <div className="horizontal-divider-preview" />
       <div className="preview-row">
         <div className="row-field bill-to-party">
           Bill To Party          
@@ -187,8 +187,7 @@ const Priview = ({location}) => {
           </div>
         </div>
       </div>
-      <div className="horizontal-divider" />
-      <div className="horizontal-divider" />
+      <div className="horizontal-divider-preview" />
       <div className="preview-row">
         <Table bordered>
           <thead>
@@ -200,7 +199,8 @@ const Priview = ({location}) => {
               <th className="quantity">Quantity</th>
               <th className="rate">Rate</th>
               <th className="taxable-amount">Taxable Amount</th>
-              <th className="igst">IGST</th>
+              <th className="igst">IGST Rate (%)</th>
+              <th className="igst">IGST Amount</th>
               <th className="total">Total</th>
             </tr>
           </thead>
@@ -217,6 +217,7 @@ const Priview = ({location}) => {
                     <td className="quantity-cell">{invoiceItem.quantity}</td>
                     <td className="rate-cell">{invoiceItem.rate}</td>
                     <td className="taxable-amount-cell">{invoiceItem.taxableAmount}</td>
+                    <td className="igst-rate-cell">{invoice.igstRate}</td>
                     <td className="igst-cell">{invoiceItem.igst}</td>
                     <td className="total-cell">{invoiceItem.total}</td>
                   </tr>
@@ -244,6 +245,7 @@ const Priview = ({location}) => {
                   invoice.invoiceItems.reduce((totalTaxableAmount, invoiceItem) => parseInt(totalTaxableAmount) + parseInt(invoiceItem.taxableAmount), 0)
                 }
               </td>
+              <td></td>
               <td className="total-igst">
                 {
                   invoice.invoiceItems.reduce((totalIGST, invoiceItem) => parseInt(totalIGST) + parseInt(invoiceItem.igst), 0)
@@ -340,7 +342,7 @@ const Priview = ({location}) => {
               Certified that the particulars given above are true and correct
             </div>
             <div className="signature-company">
-              For {company.displayName}
+              For {company ? company.displayName : ''}
             </div>
             <div className="authorized-signature">
               Authorized Signature
