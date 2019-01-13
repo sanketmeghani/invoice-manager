@@ -6,8 +6,8 @@ const companyInfo = {
       city: 'Thangadh',
       pincode: '363530'
     },
-    telephone: '9427667998',
-    gstin: '24ATEPM8579P1ZR'
+    telephone: 'XXXXXXXX',
+    gstin: 'XXXXXXXXXXXXXX'
   },
   'my-ceramic': {
     displayName: 'My Ceramic',
@@ -16,8 +16,8 @@ const companyInfo = {
       city: 'Thangadh',
       pincode: '363530'
     },
-    telephone: '9427667998',
-    gstin: '24ATEPM8579P1ZR'
+    telephone: 'XXXXXXXX',
+    gstin: 'XXXXXXXXXXXXXX'
   }
 }
 
